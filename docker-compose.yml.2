@@ -1,0 +1,25 @@
+version: '2'
+services:
+  wordpress:
+    build: .
+    image: tumblr-pull/plugin
+    restart: always
+    depends_on:
+      - db
+    links:
+    - db:mysql
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www/html/wp-content/plugins/tumblr-pull
+    environment:
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_USER: wordpress
+  db:
+    image: mysql:5.5
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER= wordpress
+      - MYSQL_PASSWORD= password
